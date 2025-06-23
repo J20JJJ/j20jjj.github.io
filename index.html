@@ -292,52 +292,65 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // ===== GSAP Animations =====
-        document.addEventListener('DOMContentLoaded', () => {
-            // Hero entrance
-            gsap.from('.avatar', { duration: 1, scale: 0, ease: 'back.out(1.7)' });
-            gsap.from('.hero-title', { duration: 1, y: 50, opacity: 0, delay: 0.3, ease: 'power4.out' });
-            gsap.from('.hero-subtitle', { duration: 1, y: 50, opacity: 0, delay: 0.5, ease: 'power4.out' });
-            gsap.from('.btn-primary', { duration: 1, y: 50, opacity: 0, delay: 0.7, ease: 'power4.out' });
+    document.addEventListener('DOMContentLoaded', () => {
+        // === Restaurar tema desde localStorage ===
+        const htmlEl = document.documentElement;
+        const savedTheme = localStorage.getItem('theme') || 'light';
 
-            // Reveal sections
-            gsap.utils.toArray('.reveal').forEach(el => {
-                gsap.from(el, {
-                    scrollTrigger: {
-                        trigger: el,
-                        start: 'top 85%',
-                    },
-                    y: 60,
-                    opacity: 0,
-                    duration: 0.8,
-                    ease: 'power2.out'
-                });
+        if (savedTheme === 'dark') {
+            htmlEl.classList.add('dark-mode');
+            htmlEl.classList.remove('light-mode');
+            htmlEl.setAttribute('data-bs-theme', 'dark');
+        } else {
+            htmlEl.classList.add('light-mode');
+            htmlEl.classList.remove('dark-mode');
+            htmlEl.setAttribute('data-bs-theme', 'light');
+        }
+
+        // === GSAP Animaciones ===
+        gsap.from('.avatar', { duration: 1, scale: 0, ease: 'back.out(1.7)' });
+        gsap.from('.hero-title', { duration: 1, y: 50, opacity: 0, delay: 0.3, ease: 'power4.out' });
+        gsap.from('.hero-subtitle', { duration: 1, y: 50, opacity: 0, delay: 0.5, ease: 'power4.out' });
+        gsap.from('.btn-primary', { duration: 1, y: 50, opacity: 0, delay: 0.7, ease: 'power4.out' });
+
+        gsap.utils.toArray('.reveal').forEach(el => {
+            gsap.from(el, {
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top 85%',
+                },
+                y: 60,
+                opacity: 0,
+                duration: 0.8,
+                ease: 'power2.out'
             });
-
-            // Theme toggle animation
-            const btn = document.getElementById('themeToggle');
-            const sun = btn.children[0];
-            const moon = btn.children[1];
-            const tl = gsap.timeline({ paused: true });
-            tl.to(sun, { rotation: 90, y: 20, opacity: 0, duration: 0.4, ease: 'back.in(1.7)' })
-                .fromTo(moon, { rotation: -90, y: -20, opacity: 0 }, { rotation: 0, y: 0, opacity: 1, duration: 0.4, ease: 'back.out(1.7)' }, '<');
-
-            btn.addEventListener('click', () => {
-                const htmlEl = document.documentElement;
-                const dark = htmlEl.classList.toggle('dark-mode');
-                htmlEl.classList.toggle('light-mode', !dark);
-                dark ? tl.play() : tl.reverse();
-
-                const currentTheme = htmlEl.getAttribute('data-bs-theme');
-                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-                htmlEl.setAttribute('data-bs-theme', newTheme);
-            });
-
-
-            // Current year footer
-            document.getElementById('year').textContent = new Date().getFullYear();
         });
-    </script>
+
+        // === Botón de tema ===
+        const btn = document.getElementById('themeToggle');
+        const sun = btn.children[0];
+        const moon = btn.children[1];
+        const tl = gsap.timeline({ paused: true });
+        tl.to(sun, { rotation: 90, y: 20, opacity: 0, duration: 0.4, ease: 'back.in(1.7)' })
+            .fromTo(moon, { rotation: -90, y: -20, opacity: 0 }, { rotation: 0, y: 0, opacity: 1, duration: 0.4, ease: 'back.out(1.7)' }, '<');
+
+        btn.addEventListener('click', () => {
+            const dark = htmlEl.classList.toggle('dark-mode');
+            htmlEl.classList.toggle('light-mode', !dark);
+            dark ? tl.play() : tl.reverse();
+
+            const newTheme = dark ? 'dark' : 'light';
+            htmlEl.setAttribute('data-bs-theme', newTheme);
+
+            // === Guardar en localStorage ===
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // === Año actual en footer ===
+        document.getElementById('year').textContent = new Date().getFullYear();
+    });
+</script>
+
 
 </body>
 
