@@ -1,1 +1,344 @@
-<h1>Prueba</h1>
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="light" class="light-mode">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>J20JJJ · Portfolio</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Devicon (for tech stack icons) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/devicon@2.15.1/devicon.min.css" />
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        /* ===== Root design tokens (change in dark-mode) ===== */
+        :root {
+            --bg-1: #f8f9fa;
+            --bg-2: #ffffff;
+            --txt-1: #212529;
+            --txt-2: #495057;
+            --accent: #0d6efd;
+        }
+
+        /* Override some Bootstrap CSS vars when we are in dark mode */
+        .dark-mode {
+            --bg-1: #121212;
+            --bg-2: #1e1e1e;
+            --txt-1: #f8f9fa;
+            --txt-2: #adb5bd;
+            --accent: #66b2ff;
+
+            /* Bootstrap variables */
+            --bs-body-bg: #121212;
+            --bs-body-color: #f8f9fa;
+            --bs-body-color-rgb: 248, 249, 250;
+            --bs-tertiary-bg: #1e1e1e;
+            --bs-secondary-color: #adb5bd;
+            --bs-primary: #66b2ff;
+        }
+
+        body {
+            background: var(--bg-1);
+            color: var(--txt-1);
+            transition: background 0.4s ease, color 0.4s ease;
+        }
+
+        .card,
+        .navbar {
+            background: var(--bg-2) !important;
+            color: var(--txt-1) !important;
+            transition: background 0.4s ease, color 0.4s ease;
+        }
+
+        a {
+            color: var(--accent);
+        }
+
+        a:hover {
+            color: var(--accent);
+            opacity: .8;
+        }
+
+        /* ===== Hero section ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: -10%;
+            left: 50%;
+            width: 140vw;
+            height: 140vw;
+            transform: translateX(-50%);
+            background: radial-gradient(circle at center, var(--accent) 0%, transparent 70%);
+            opacity: 0.05;
+        }
+
+        .avatar {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 6px solid var(--accent);
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+        }
+
+        /* ===== Uiverse-inspired hover card ===== */
+        .hover-card {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .hover-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent 0%, var(--accent) 50%, transparent 100%);
+            transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hover-card:hover::before {
+            left: 100%;
+        }
+
+        /* ===== Section spacing helpers ===== */
+        section {
+            padding: 6rem 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- === Theme Toggle Button === -->
+    <button id="themeToggle"
+        class="btn btn-outline-primary position-fixed end-0 bottom-0 m-4 p-2 rounded-circle d-flex align-items-center justify-content-center shadow"
+        style="width:3.5rem; height:3.5rem; z-index:1050;">
+        <i class="bi bi-sun-fill fs-4"></i>
+        <i class="bi bi-moon-stars-fill fs-4 position-absolute" style="opacity:0"></i>
+    </button>
+
+    <!-- === Navbar === -->
+    <nav class="navbar navbar-expand-lg shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold bg-2" href="#">J20JJJ</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
+                aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-lg-2">
+                    <li class="nav-item"><a class="nav-link" href="#about">Sobre mí</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tools">Tools</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#repos">Repos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contacto</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- === Hero === -->
+    <header class="hero" id="about">
+        <div class="container text-center position-relative">
+            <img src="https://avatars.githubusercontent.com/u/133089779?v=4" class="avatar mb-4" alt="Avatar J20JJJ" />
+            <h1 class="display-4 fw-bold hero-title">¡Hola, soy <span class="text-primary">J20JJJ</span>!</h1>
+            <p class="lead hero-subtitle">Desarrollador apasionado explorando <strong>CharacterAI</strong>, aprendiendo
+                <strong>AWS</strong> & creando proyectos <i class="bi bi-rocket-takeoff"></i>
+            </p>
+            <a href="https://github.com/J20JJJ" target="_blank" class="btn btn-primary btn-lg mt-3">Ver GitHub</a>
+        </div>
+    </header>
+
+    <!-- === Tools Section === -->
+    <section id="tools">
+        <div class="container">
+            <h2 class="text-center mb-5 reveal">⚙️ Mis herramientas favoritas</h2>
+            <div class="row g-4">
+                <!-- Category: Languages -->
+                <div class="col-12 col-md-6 col-lg-4 reveal">
+                    <div class="card hover-card h-100 p-3 text-center">
+                        <h4 class="mb-3">Lenguajes</h4>
+                        <div class="d-flex flex-wrap gap-3 justify-content-center fs-3">
+                            <i class="devicon-python-plain" title="Python"></i>
+                            <i class="devicon-javascript-plain" title="JavaScript"></i>
+                            <i class="devicon-java-plain" title="Java"></i>
+                            <i class="devicon-c-plain" title="C"></i>
+                            <i class="devicon-typescript-plain" title="TypeScript"></i>
+                            <i class="devicon-css3-plain" title="CSS"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- Category: Frameworks/Libraries -->
+                <div class="col-12 col-md-6 col-lg-4 reveal">
+                    <div class="card hover-card h-100 p-3 text-center">
+                        <h4 class="mb-3">Frameworks & Libs</h4>
+                        <div class="d-flex flex-wrap gap-3 justify-content-center fs-3">
+                            <i class="devicon-bootstrap-plain" title="Bootstrap"></i>
+                            <i class="devicon-react-original" title="React"></i>
+                            <i class="devicon-vuejs-plain" title="Vue"></i>
+                            <i class="devicon-angularjs-plain" title="Angular"></i>
+                            <i class="devicon-express-original" title="Express.js"></i>
+                            <i class="devicon-flask-original" title="Flask"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- Category: Cloud & DB -->
+                <div class="col-12 col-md-6 col-lg-4 reveal">
+                    <div class="card hover-card h-100 p-3 text-center">
+                        <h4 class="mb-3">Cloud & DB</h4>
+                        <div class="d-flex flex-wrap gap-3 justify-content-center fs-3">
+                            <i class="devicon-amazonwebservices-plain-wordmark" title="AWS"></i>
+                            <i class="devicon-mongodb-plain" title="MongoDB"></i>
+                            <i class="devicon-postgresql-plain" title="PostgreSQL"></i>
+                            <i class="devicon-sqlite-plain" title="SQLite"></i>
+                            <i class="devicon-github-original" title="GitHub Pages"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- === Popular Repos (cards copied idea from uiverse) === -->
+    <section id="repos" class="bg-body-tertiary">
+        <div class="container">
+            <h2 class="text-center mb-5 reveal">🔥 Repos populares</h2>
+            <div class="row g-4">
+                <!-- Repo 1 Poke-API-front -->
+                <div class="col-12 col-md-6 col-lg-4 reveal">
+                    <div class="card hover-card h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title fw-bold">Poke-API-front</h5>
+                            <p class="card-text flex-grow-1">Frontend de la PokeAPI desplegado con Vue.</p>
+                            <span class="badge bg-success align-self-start"><i class="bi bi-lightning-charge"></i>
+                                Vue</span>
+                            <a href="https://github.com/J20JJJ/Poke-API-front" target="_blank"
+                                class="btn btn-outline-primary mt-3">Ver repo</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Repo 2 MusiJuego -->
+                <div class="col-12 col-md-6 col-lg-4 reveal">
+                    <div class="card hover-card h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title fw-bold">MusiJuego</h5>
+                            <p class="card-text flex-grow-1">Juego musical inspirado en OSU & Guitar Hero, creado con
+                                Unity + Python.</p>
+                            <span class="badge bg-warning text-dark align-self-start"><i
+                                    class="bi bi-music-note-beamed"></i> Python</span>
+                            <a href="https://github.com/J20JJJ/MusiJuego" target="_blank"
+                                class="btn btn-outline-primary mt-3">Ver repo</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Repo 3 Proyecto-Trimestre -->
+                <div class="col-12 col-md-6 col-lg-4 reveal">
+                    <div class="card hover-card h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title fw-bold">Proyecto-Trimestre</h5>
+                            <p class="card-text flex-grow-1">Pokédex estilo gacha: ¡gira la ruleta para coleccionar y
+                                charla con IA!</p>
+                            <span class="badge bg-danger align-self-start"><i class="bi bi-chat-dots"></i> Vue +
+                                AI</span>
+                            <a href="https://github.com/J20JJJ/Proyecto-Trimestre" target="_blank"
+                                class="btn btn-outline-primary mt-3">Ver repo</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- === Contact === -->
+    <section id="contact">
+        <div class="container text-center">
+            <h2 class="mb-4 reveal">🌐 Redes & Contacto</h2>
+            <div class="d-flex justify-content-center gap-4 fs-1 mb-4 reveal">
+                <a href="https://www.youtube.com/@j20jjj" target="_blank" class="text-danger"><i
+                        class="bi bi-youtube"></i></a>
+                <a href="https://www.linkedin.com/in/j20jjj" target="_blank" class="text-primary"><i
+                        class="bi bi-linkedin"></i></a>
+                <a href="https://x.com/j20jjj" target="_blank" class="text-info"><i class="bi bi-twitter-x"></i></a>
+                <a href="https://discord.gg/" target="_blank" class="text-primary"><i class="bi bi-discord"></i></a>
+                <a href="https://dev.to/j20jjj" target="_blank" class="text-dark"><i class="bi bi-code-slash"></i></a>
+            </div>
+            <p class="lead reveal">¿Te gusta mi trabajo? <a href="https://www.buymeacoffee.com/J20JJJ"
+                    target="_blank">¡Invítame a un café! ☕️</a></p>
+        </div>
+    </section>
+
+    <!-- === Footer === -->
+    <footer class="py-4 text-center" style="background:var(--bg-2);">
+        <small class="text-muted">© <span id="year"></span> J20JJJ · Hecho con Bootstrap & GSAP</small>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // ===== GSAP Animations =====
+        document.addEventListener('DOMContentLoaded', () => {
+            // Hero entrance
+            gsap.from('.avatar', { duration: 1, scale: 0, ease: 'back.out(1.7)' });
+            gsap.from('.hero-title', { duration: 1, y: 50, opacity: 0, delay: 0.3, ease: 'power4.out' });
+            gsap.from('.hero-subtitle', { duration: 1, y: 50, opacity: 0, delay: 0.5, ease: 'power4.out' });
+            gsap.from('.btn-primary', { duration: 1, y: 50, opacity: 0, delay: 0.7, ease: 'power4.out' });
+
+            // Reveal sections
+            gsap.utils.toArray('.reveal').forEach(el => {
+                gsap.from(el, {
+                    scrollTrigger: {
+                        trigger: el,
+                        start: 'top 85%',
+                    },
+                    y: 60,
+                    opacity: 0,
+                    duration: 0.8,
+                    ease: 'power2.out'
+                });
+            });
+
+            // Theme toggle animation
+            const btn = document.getElementById('themeToggle');
+            const sun = btn.children[0];
+            const moon = btn.children[1];
+            const tl = gsap.timeline({ paused: true });
+            tl.to(sun, { rotation: 90, y: 20, opacity: 0, duration: 0.4, ease: 'back.in(1.7)' })
+                .fromTo(moon, { rotation: -90, y: -20, opacity: 0 }, { rotation: 0, y: 0, opacity: 1, duration: 0.4, ease: 'back.out(1.7)' }, '<');
+
+            btn.addEventListener('click', () => {
+                const htmlEl = document.documentElement;
+                const dark = htmlEl.classList.toggle('dark-mode');
+                htmlEl.classList.toggle('light-mode', !dark);
+                dark ? tl.play() : tl.reverse();
+
+                const currentTheme = htmlEl.getAttribute('data-bs-theme');
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                htmlEl.setAttribute('data-bs-theme', newTheme);
+            });
+
+
+            // Current year footer
+            document.getElementById('year').textContent = new Date().getFullYear();
+        });
+    </script>
+
+</body>
+
+</html>
